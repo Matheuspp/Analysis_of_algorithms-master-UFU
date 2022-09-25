@@ -1,14 +1,35 @@
 import time
 
-def insertion_sort(elements):
-	for i in range(1, len(elements)):
-		key = elements[i]
-		j = i-1
+def merge(elements, L, R):
+    i = j = k = 0 
+    while i < len(L) and j < len(R):
+        if L[i][1] >= R[j][1]:
+            elements[k] = L[i]
+            i += 1
+        else:
+            elements[k] = R[j]
+            j += 1
+        k += 1
 
-		while j >=0 and key[1] > elements[j][1] :
-				elements[j+1] = elements[j]
-				j -= 1
-		elements[j+1] = key
+    while i < len(L):
+        elements[k] = L[i]
+        i += 1
+        k += 1
+
+    while j < len(R):
+        elements[k] = R[j]
+        j += 1
+        k += 1
+
+def mergeSort(elements):
+    if len(elements) > 1: 
+        mid = len(elements)//2 
+        L = elements[:mid] 
+        R = elements[mid:]
+ 
+        mergeSort(L) 
+        mergeSort(R)
+        merge(elements, L, R)
 
 def topK(elements, K):
 	N = len(elements)
@@ -25,7 +46,7 @@ def topK(elements, K):
 		a[j] = [i, freq_mp[i]]
 		j += 1
 
-	insertion_sort(a)
+	mergeSort(a)
 
 	for i in range(K):
 		print(a[i][0])
